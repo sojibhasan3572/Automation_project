@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from dataentry.models import Studnet,Customer
+from dataentry.models import Student,Customer
 
 class Command(BaseCommand):
     help="it will insert data to the databse"
@@ -13,9 +13,9 @@ class Command(BaseCommand):
         ]
         for data in dataset:
             roll_no = data['roll_no']
-            existing_record = Studnet.objects.filter(roll_no=roll_no).exists()
+            existing_record = Student.objects.filter(roll_no=roll_no).exists()
             if not existing_record:
-                Studnet.objects.create(roll_no=data['roll_no'], name = data['name'], age = data['age'])
+                Student.objects.create(roll_no=data['roll_no'], name = data['name'], age = data['age'])
             else:
                 self.stdout.write(self.style.WARNING(f'Student with roll no {roll_no} already exists!'))
         self.stdout.write(self.style.SUCCESS('Data inserted successfully!'))     

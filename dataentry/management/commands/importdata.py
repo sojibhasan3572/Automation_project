@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand,CommandError
 from django.apps import apps
+from django.db.utils import DataError
 import csv
 
 # Proposed command - python manage.py importdata file_path model_name
@@ -23,10 +24,22 @@ class Command(BaseCommand):
             except LookupError:
                 continue
         if not model:
-            raise CommandError(f'Model "{model_name}" is not found')  
+            raise CommandError(f'Model "{model_name}" is not found') 
+        
+         # Get model fields without 'id'
+        model_fields = [field.name for field in model._meta.fields if field.name != 'id']
 
         with open(file_path , 'r') as file:
             reader = csv.DictReader(file)
+            csv_header = reader.fieldnames
+            # Get CSV headers without 'id'
+            csv_header = [col for col in reader.fieldnames if col != 'id']
+
+            if csv_header != model_fields:
+                raise DataError (f"CSV file doesn't match with the {model_name} table fields")
+
             for row in reader:
-                model_name.object.create(**row)
+                row.pop('id', None)
+                model.objects.create(**row)
+        self.stdout.write(self.style.SUCCESS('Data imported from CSV successfully!'))
 

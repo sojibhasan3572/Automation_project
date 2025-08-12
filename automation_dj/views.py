@@ -1,0 +1,10 @@
+from django.shortcuts import redirect, render
+# from django.http import HttpResponse
+# from dataentry.tasks import celery_test_task
+# from .forms import RegistrationForm
+# from django.contrib import messages
+# from django.contrib.auth.forms import AuthenticationForm
+# from django.contrib import auth
+
+# def home(request):
+#     return render(request, 'home.html')
