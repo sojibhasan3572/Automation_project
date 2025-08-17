@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
-from .utlis import get_all_custom_models
+from .utlis import get_all_custom_models,check_csv_errors
 from uploads.models import Upload
 from django.conf import settings
 from django.contrib import messages
 from django.core.management import call_command
-
+from .tasks import import_data_task
 # Create your views here.
 def import_data(request):
     if request.method == 'POST':
@@ -19,14 +19,12 @@ def import_data(request):
         base_url = str(settings.BASE_DIR)
         file_path = base_url+relative_path
 
+        # check for the csv errors
         try:
-            print(file_path, model_name)
-            call_command('importdata',file_path,model_name)
-            messages.success(request,"Data imported successfully")
+            check_csv_errors(file_path, model_name)
         except Exception as e:
-            print(e)
-
             messages.error(request, str(e))
+            return redirect('import_data')
         return redirect('import_data')
 
     else:
