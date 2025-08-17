@@ -107,3 +107,12 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
         raise e
     
 
+def generate_csv_file(model_name):
+    # generate the timestamp of current date and time
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    # define the csv file name/path
+
+    export_dir = 'exported_data'
+    file_name = f'exported_{model_name}_data_{timestamp}.csv'
+    file_path = os.path.join(settings.MEDIA_ROOT, export_dir, file_name)
+    return file_path
