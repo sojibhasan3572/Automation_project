@@ -48,3 +48,35 @@ def send_email(request):
             'email_form': email,
         }
         return render(request, 'emails/send-email.html', context)
+    
+
+def track_click(request, unique_id):
+    # Logic to store the tracking info
+    try:
+        email_tracking = EmailTracking.objects.get(unique_id=unique_id)
+        url = request.GET.get('url')
+        # Check if the clicked_at field is already set or not
+        if not email_tracking.clicked_at:
+            email_tracking.clicked_at = timezone.now()
+            email_tracking.save()
+            return HttpResponseRedirect(url)
+        else:
+            return HttpResponseRedirect(url)
+    except:
+        return HttpResponse('Email tracking record not found!')
+
+
+def track_open(request, unique_id):
+    # Logic to store the tracking info
+    try:
+        email_tracking = EmailTracking.objects.get(unique_id=unique_id)
+        # Check if the opened_at field is already set or not
+        if not email_tracking.opened_at:
+            email_tracking.opened_at = timezone.now()
+            email_tracking.save()
+            return HttpResponse("Email opened successfully!")
+        else:
+            print('Email already opened')
+            return HttpResponse('Email already opened')
+    except:
+        return HttpResponse('Email tracking record not found!')
