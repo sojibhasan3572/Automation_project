@@ -50,6 +50,8 @@ def send_email(request):
         return render(request, 'emails/send-email.html', context)
     
 
+    
+
 def track_click(request, unique_id):
     # Logic to store the tracking info
     try:
@@ -80,3 +82,11 @@ def track_open(request, unique_id):
             return HttpResponse('Email already opened')
     except:
         return HttpResponse('Email tracking record not found!')
+    
+def track_dashboard(request):
+    emails = Email.objects.all().annotate(total_sent=Sum('sent__total_sent')).order_by('-sent_at')
+    
+    context = {
+        'emails': emails,
+    }
+    return render(request, 'emails/track_dashboard.html', context)
