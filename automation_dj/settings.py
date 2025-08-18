@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dataentry',
+    'emails',
     'uploads',
     'crispy_forms',
     'crispy_bootstrap5',
