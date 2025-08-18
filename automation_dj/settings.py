@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'uploads',
     'crispy_forms',
     'crispy_bootstrap5',
+    'ckeditor',
 ]
 # Configure crispy template pack
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -138,14 +140,27 @@ MESSAGE_TAGS = {
 }
 CELERY_BROKER_URL = 'Redis://localhost:6379'
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height': 200,
+    },
+}
+
 # settings.py
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'   
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'sojibhasan5800@gmail.com'     
-EMAIL_HOST_PASSWORD = 'vpdilgkjbkoabmta'    
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'   
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'sojibhasan5800@gmail.com'     
+# EMAIL_HOST_PASSWORD = 'vpdilgkjbkoabmta'   
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+
+EMAIL_BACKEND = "anymail.backends.sendinblue.EmailBackend"
+ANYMAIL = {
+    "SENDINBLUE_API_KEY": config("SENDINBLUE_API_KEY"),
+}
 
 
 # Default primary key field type
