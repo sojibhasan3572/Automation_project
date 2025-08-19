@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from dataentry.tasks import import_data_task
-from .forms import RegistrationForm
+from account.forms import RegistrationForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
@@ -19,7 +19,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Registration successful.')
+            messages.success(request, "Account created successfully! An OTP was sent to your Email")
             return redirect('register')
         else:
             context = {'form': form}
