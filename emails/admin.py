@@ -7,5 +7,5 @@ class EmailTrackingAdmin(admin.ModelAdmin):
 admin.site.register(List)
 admin.site.register(Subscriber)
 admin.site.register(Email)
-admin.site.register(EmailTracking)
+admin.site.register(EmailTracking,EmailTrackingAdmin)
 admin.site.register(Sent)
