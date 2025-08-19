@@ -63,6 +63,7 @@ def track_click(request, unique_id):
             email_tracking.save()
             return HttpResponseRedirect(url)
         else:
+            # if link are already Click
             return HttpResponseRedirect(url)
     except:
         return HttpResponse('Email tracking record not found!')
@@ -78,7 +79,7 @@ def track_open(request, unique_id):
             email_tracking.save()
             return HttpResponse("Email opened successfully!")
         else:
-            print('Email already opened')
+            # print('Email already opened')
             return HttpResponse('Email already opened')
     except:
         return HttpResponse('Email tracking record not found!')
