@@ -1,5 +1,6 @@
 amqp==5.3.1
 asgiref==3.9.1
+beautifulsoup4==4.13.4
 billiard==4.2.1
 celery==5.5.3
 certifi==2025.8.3
@@ -15,6 +16,7 @@ django-anymail==13.0.1
 django-ckeditor==6.7.3
 django-crispy-forms==2.4
 django-js-asset==3.1.2
+git-filter-repo==2.47.0
 idna==3.10
 kombu==5.5.4
 packaging==25.0
@@ -24,7 +26,9 @@ python-decouple==3.8
 redis==6.4.0
 requests==2.32.4
 six==1.17.0
+soupsieve==2.7
 sqlparse==0.5.3
+typing_extensions==4.14.1
 tzdata==2025.2
 urllib3==2.5.0
 vine==5.1.0

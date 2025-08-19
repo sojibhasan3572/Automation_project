@@ -43,7 +43,7 @@ def send_email(request):
             messages.success(request, 'Email sent successfully!')
             return redirect('send_email')
     else:
-        email = EmailForm()
+        email = EmailForm() 
         context = {
             'email_form': email,
         }

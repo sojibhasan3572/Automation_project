@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'ckeditor',
 ]
 # Configure crispy template pack
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
@@ -167,3 +166,5 @@ ANYMAIL = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# CSRF_TRUSTED_ORIGINS = ['https://faff-114-79-178-247.ngrok-free.app']
+BASE_URL = 'http://127.0.0.1:8000/'
