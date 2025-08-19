@@ -10,7 +10,6 @@ class CustomUser(AbstractUser):
     
     USERNAME_FIELD = ("email")
     
-    
     def _str__(self):
         return self.email
     

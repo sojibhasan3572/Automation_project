@@ -43,7 +43,7 @@ def verify_email(request):
             # expired token
             else:
                 messages.warning(request, "The OTP has expired, get a new OTP!")
-                return redirect("verify-email", username=user.username)
+                return redirect("verify-email")
         
         
         # invalid otp code
