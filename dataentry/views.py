@@ -5,12 +5,15 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.management import call_command
 from .tasks import import_data_task,export_data_task
+
+
 # Create your views here.
 def import_data(request):
     if request.method == 'POST':
         file_path = request.FILES.get('file_path')
         model_name = request.POST.get('model_name')
-
+        user_email = request.user.email
+        
         # store this file inside the Upload model
         upload = Upload.objects.create(file=file_path, model_name=model_name)
 
@@ -25,7 +28,14 @@ def import_data(request):
         except Exception as e:
             messages.error(request, str(e))
             return redirect('import_data')
+        
+        # handle the import data task here
+        import_data_task.delay(file_path, model_name,user_email)
+
+        # show the message to the user
+        messages.success(request, 'Your data is being imported, you will be notified once it is done.')
         return redirect('import_data')
+        
 
     else:
         custom_models = get_all_custom_models()
@@ -38,6 +48,7 @@ def import_data(request):
 def export_data(request):
     if request.method == 'POST':
         model_name = request.POST.get('model_name')
+        user_email = request.user.email
 
         # call the export data task
         export_data_task.delay(model_name)
