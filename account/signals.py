@@ -14,25 +14,23 @@ def create_token(sender, instance, created, **kwargs):
             pass
         
         else:
-            OtpToken.objects.create(user=instance, otp_expires_at=timezone.now() + timezone.timedelta(minutes=2))
+            OtpToken.objects.create(user=instance, otp_expires_at=timezone.now() + timezone.timedelta(minutes=5))
             instance.is_active=False 
             instance.save()
         
         
         # email credentials
         otp = OtpToken.objects.filter(user=instance).last()
-        email = instance.email
-        username =  email.split("@")
        
        
         subject="Email Verification"
         message = f"""
-                                Hi {username[0]}, here is your OTP {otp.otp_code} 
-                                it expires in 2 minute, use the url below to redirect back to the website
-                                http://127.0.0.1:8000#add your base-url/verify-email
+                                Hi {instance.username}, here is your OTP {otp.otp_code} 
+                                it expires in 5 minute, use the url below to redirect back to the website
+                                http://127.0.0.1:8000/verify-email/{instance.username}
                                 
                                 """
-        sender = "sojibhasan5800@gmail.com"
+        sender = settings.EMAIL_HOST_USER
         receiver = [instance.email, ]
        
         
