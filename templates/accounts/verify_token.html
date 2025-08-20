@@ -1,40 +1,74 @@
 {% extends "base.html" %}
 
-
-
 {% block content %}
-
-
 <style>
-    form{
-        width: 500px;
-        height: auto;
-        padding: 20px 20px 20px 20px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    .verify-container {
+        max-width: 500px;
+        background: #fff;
+        padding: 25px;
         margin: 50px auto;
-        border-radius: 10px;
-    }
-    form p{
+        border-radius: 12px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
         text-align: center;
     }
-
-    form h3{
-        text-align: center
+    .verify-container h3 {
+        margin-bottom: 15px;
+        color: #2c3e50;
+        font-weight: bold;
+    }
+    .otp-box {
+        font-size: 18px;
+        color: #e74c3c;
+        font-weight: bold;
+        margin: 15px 0;
+    }
+    .countdown {
+        font-size: 18px;
+        color: #2c3e50;
+        font-weight: 600;
+        margin: 10px 0;
+    }
+    .resend {
+        margin-top: 15px;
+        font-size: 14px;
     }
 </style>
 
-
-    <form action="" method='POST'>
-        {% csrf_token %}
-        <h3><strong>Verify Email</strong></h3>
-        <div class="mb-3">
-            <label class="form-label">OTP</label>
-            <input class="form-control" name="otp_code" placeholder="Enter OTP">
-          </div>
-
-          <button class="btn btn-primary" style="width:100%">Activate Account</button>
-          <p>Need a new OTP? <a href="{% url 'resend-otp' %}">Resend OTP</a></p>
-
-    </form>
-{% endblock content %}
+<div class="verify-container">
+    <h3>Verify Your Email</h3>
     
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Enter OTP</label>
+            <input class="form-control" name="otp_code" placeholder="Enter OTP" required>
+        </div>
+
+        <button class="btn btn-primary w-100">Activate Account</button>
+    </form>
+
+    <div class="countdown">
+        OTP will expire in: <span id="countdown"></span>
+    </div>
+
+    <p class="resend">
+        Didn’t receive OTP? <a href="{% url 'resend-otp' %}">Resend OTP</a>
+    </p>
+</div>
+
+<script>
+    // 2 min = 120 seconds
+    let timeLeft = 120;
+    let timer = setInterval(function(){
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s";
+
+        timeLeft -= 1;
+        if(timeLeft < 0){
+            clearInterval(timer);
+            document.getElementById("countdown").innerHTML = "Expired ❌";
+        }
+    }, 1000);
+</script>
+{% endblock content %}
