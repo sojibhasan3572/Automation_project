@@ -17,6 +17,7 @@ def create_token(sender, instance, created, **kwargs):
             pass
         
         else:
+            
             OtpToken.objects.create(user=instance, otp_expires_at=timezone.now() + timezone.timedelta(minutes=2))
             instance.is_active=False 
             instance.save()

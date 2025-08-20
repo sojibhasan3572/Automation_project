@@ -19,9 +19,9 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             messages.success(request, "Account created successfully! An OTP was sent to your Email")
-            return redirect("account:verify-email", username=request.POST['username'])
+            return redirect("account:verify-email",  username=user.username)
         else:
             context = {'form': form}
             return render(request, 'accounts/register.html', context)
