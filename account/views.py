@@ -10,6 +10,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
 
 # Create your views here.
 
@@ -19,7 +21,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Account created successfully! An OTP was sent to your Email")
-            return redirect("verify-email", username=request.POST['username'])
+            return redirect("account:verify-email", username=request.POST['username'])
         else:
             context = {'form': form}
             return render(request, 'accounts/register.html', context)
@@ -30,35 +32,68 @@ def register(request):
         }
     return render(request, 'accounts/register.html', context)
 
-def verify_email(request):
-    user = get_user_model().objects.get(email=request.user.email)
+def verify_email(request,username):
+    user = get_user_model().objects.get(username=username)
     user_otp = OtpToken.objects.filter(user=user).last()
-    
+   
     
     if request.method == 'POST':
+        
+
         # valid token
         if user_otp.otp_code == request.POST['otp_code']:
-            
+           
             # checking for expired token
             if user_otp.otp_expires_at > timezone.now():
                 user.is_active=True
                 user.save()
                 messages.success(request, "Account activated successfully!! You can Login.")
-                return redirect("login")
+                return redirect("account:login")
             
             # expired token
             else:
                 messages.warning(request, "The OTP has expired, get a new OTP!")
-                return redirect("verify-email", username=user.username)
+                return redirect("account:verify-email", username=user.username)
         
         
         # invalid otp code
         else:
             messages.warning(request, "Invalid OTP entered, enter a valid OTP!")
-            return redirect("verify-email", username=user.username)
+            return redirect("account:verify-email", username=user.username)
         
-    context = {}
+    context = {
+        'username':username
+    }
     return render(request, "accounts/verify_token.html", context)
+
+
+def auto_active_verify_email(request,username,uidb64):
+    user = get_user_model().objects.get(username=username)
+    user_otp = OtpToken.objects.filter(user=user).last()
+
+    # valid token
+    uid = urlsafe_base64_decode(uidb64).decode()
+    if user_otp.otp_code == uid:
+        
+        # checking for expired token
+        if user_otp.otp_expires_at > timezone.now():
+            user.is_active=True
+            user.save()
+            messages.success(request, "Account activated successfully!! You can Login.")
+            return redirect("account:login")
+        
+        # expired token
+        else:
+            messages.warning(request, "The OTP has expired, get a new OTP!")
+            return redirect("account:verify-email", username=user.username)
+    
+    
+    # invalid otp code
+    else:
+        messages.warning(request, "Invalid OTP entered, enter a valid OTP!")
+        return redirect("account:verify-email", username=user.username)
+    
+   
 
 def resend_otp(request):
     if request.method == 'POST':
@@ -68,12 +103,13 @@ def resend_otp(request):
             user = get_user_model().objects.get(email=user_email)
             otp = OtpToken.objects.create(user=user, otp_expires_at=timezone.now() + timezone.timedelta(minutes=2))
             
-            
+            otp_codes = otp.otp_code
+            uidb64= urlsafe_base64_encode(force_bytes(otp_codes))
             # context data
             context = {
                 "username": user.username,
-                "otp": otp.otp_code,
-                "verify_url": f"http://127.0.0.1:8000/verify-email/{user.username}",
+                "otp": otp_codes,
+                "verify_url": f"http://127.0.0.1:8000/account/verify-email/{user.username}/{uidb64}",
             }
             
             
@@ -92,11 +128,11 @@ def resend_otp(request):
             msg.send()
                 
             messages.success(request, "A new OTP has been sent to your email-address")
-            return redirect("verify-email", username=user.username)
+            return redirect("account:verify-email", username=user.username)
 
         else:
             messages.warning(request, "This email dosen't exist in the database")
-            return redirect("resend-otp")
+            return redirect("account:resend-otp")
         
            
     context = {}
@@ -117,7 +153,7 @@ def login(request):
                 return redirect('home')
         else:
             messages.error(request, 'Invalid credentials')
-            return redirect('login')
+            return redirect('account:login')
     else:
         form = AuthenticationForm()
         context = {'form': form,}

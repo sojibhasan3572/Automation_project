@@ -6,7 +6,9 @@ from django.core.mail import send_mail
 from django.utils import timezone
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
- 
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+
  
 @receiver(post_save, sender=settings.AUTH_USER_MODEL) 
 def create_token(sender, instance, created, **kwargs):
@@ -22,12 +24,13 @@ def create_token(sender, instance, created, **kwargs):
         
         # email credentials
         otp = OtpToken.objects.filter(user=instance).last()
-
+        otp_codes = otp.otp_code
+        uidb64= urlsafe_base64_encode(force_bytes(otp_codes))
         # context data
         context = {
             "username": instance.username,
-            "otp": otp.otp_code,
-            "verify_url": f"http://127.0.0.1:8000/verify-email/{instance.username}",
+            "otp": otp_codes,
+            "verify_url": f"http://127.0.0.1:8000/account/verify-email/{instance.username}/{uidb64}",
         }
        
         
@@ -36,7 +39,7 @@ def create_token(sender, instance, created, **kwargs):
         subject = "Verify Your Email Address"
         from_email = settings.EMAIL_HOST_USER
         to_email = [instance.email]
-
+        
         text_content = render_to_string("accounts/otp_email.txt", context)  # fallback text
         html_content = render_to_string("accounts/otp_email.html", context)  # beautiful design
 
