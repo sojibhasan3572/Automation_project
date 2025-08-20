@@ -22,13 +22,13 @@ def register(request):
             return redirect("verify-email", username=request.POST['username'])
         else:
             context = {'form': form}
-            return render(request, 'register.html', context)
+            return render(request, 'accounts/register.html', context)
     else:
         form = RegistrationForm()
         context = {
             'form': form,
         }
-    return render(request, 'register.html', context)
+    return render(request, 'accounts/register.html', context)
 
 def verify_email(request):
     user = get_user_model().objects.get(email=request.user.email)
@@ -121,7 +121,7 @@ def login(request):
     else:
         form = AuthenticationForm()
         context = {'form': form,}
-    return render(request, 'login.html', context)
+    return render(request, 'accounts/login.html', context)
 
 def logout(request):
     auth.logout(request)
