@@ -91,3 +91,12 @@ def track_dashboard(request):
         'emails': emails,
     }
     return render(request, 'emails/track_dashboard.html', context)
+
+def track_stats(request, pk):
+    email = get_object_or_404(Email, pk=pk)
+    sent = get_object_or_404(Sent, email=email)
+    context = {
+        'email': email,
+        'total_sent': sent.total_sent,
+    }
+    return render(request, 'emails/track_stats.html', context)

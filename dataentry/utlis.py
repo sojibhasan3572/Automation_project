@@ -66,7 +66,6 @@ def check_csv_errors(file_path, model_name):
 
 
 def send_email_notification(mail_subject, message, to_email, attachment=None, email_id=None):
-    pass
     try:
         from_email = settings.DEFAULT_FROM_EMAIL
         for recipient_email in to_email:
