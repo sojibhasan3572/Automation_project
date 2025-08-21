@@ -37,6 +37,7 @@ def send_email(request):
             email_id = email.id
 
             # Handover email sending task to celery
+            print("hand over taskcall")
             send_email_task.delay(mail_subject, message, to_email, attachment, email_id)
 
             # Display a success message
@@ -70,9 +71,11 @@ def track_click(request, unique_id):
 
 
 def track_open(request, unique_id):
+    print("url hit")
     # Logic to store the tracking info
     try:
         email_tracking = EmailTracking.objects.get(unique_id=unique_id)
+        print("counting")
         # Check if the opened_at field is already set or not
         if not email_tracking.opened_at:
             email_tracking.opened_at = timezone.now()

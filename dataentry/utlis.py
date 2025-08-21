@@ -1,15 +1,15 @@
-import datetime
 import hashlib
+from django.core.mail import EmailMessage
+from django.conf import settings
+from bs4 import BeautifulSoup
+from emails.models import Email,Subscriber,EmailTracking,Sent,List
+import datetime
 import time
 import os
 from django.apps import apps
 from django.core.management.base import CommandError
 import csv
 from django.db import DataError
-from django.core.mail import EmailMessage
-from django.conf import settings
-from emails.models import Email,Subscriber,EmailTracking,Sent,List
-from bs4 import BeautifulSoup
 
 
 
@@ -66,12 +66,14 @@ def check_csv_errors(file_path, model_name):
 
 
 def send_email_notification(mail_subject, message, to_email, attachment=None, email_id=None):
+    print("ok send work")
     try:
         from_email = settings.DEFAULT_FROM_EMAIL
         for recipient_email in to_email:
             # Create EmailTracking record
             new_message = message
             if email_id:
+                print(email_id)
                 email = Email.objects.get(pk=email_id)
                 subscriber = Subscriber.objects.get(email_list=email.email_list, email_address=recipient_email)
                 timestamp = str(time.time())
@@ -84,9 +86,11 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
                 )
                 
                 base_url = settings.BASE_URL
+
                 # Generate the tracking pixel url
                 click_tracking_url = f"{base_url}/emails/track/click/{unique_id}"
-                open_tracking_url = f"{base_url}/emails/track/open/{unique_id}"
+                open_tracking_url = f"{base_url}/emails/track/open/{unique_id}" 
+                print(open_tracking_url)
 
                 # Search for the links in the email body
                 soup = BeautifulSoup(message, 'html.parser')
@@ -106,6 +110,7 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
                 # Create the email content with tracking pixel image
                 open_tracking_img = f"<img src='{open_tracking_url}' width='1' height='1'>"
                 new_message += open_tracking_img
+                print(new_message)
 
             recipient_email =[recipient_email] # list email passing parameter
             mail = EmailMessage(mail_subject, new_message, from_email, to=recipient_email)
