@@ -28,6 +28,5 @@ urlpatterns = [
     path('celery-test/', views.celery_test),
     path('emails/', include('emails.urls')),
      path('account/', include(('account.urls', 'account'), namespace='account')),
-    # path('image-compression/', include('image_compression.urls')),
-    # path('webscraping/', include('stockanalysis.urls')),
+    path('image-compression/', include('image_compression.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
