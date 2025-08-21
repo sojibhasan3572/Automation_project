@@ -8,8 +8,9 @@ import csv
 from django.db import DataError
 from django.core.mail import EmailMessage
 from django.conf import settings
-from emails.models import Email,Subscriber,EmailTracking,Sent
+from emails.models import Email,Subscriber,EmailTracking,Sent,List
 from bs4 import BeautifulSoup
+
 
 
 def get_all_custom_models(Specefic_apps=False):
@@ -133,3 +134,9 @@ def generate_csv_file(model_name):
     file_name = f'exported_{model_name}_data_{timestamp}.csv'
     file_path = os.path.join(settings.MEDIA_ROOT, export_dir, file_name)
     return file_path
+
+def generate_tracking_email_user(user_email):
+    all_list = List.objects.all()
+    for list_obj in all_list:
+        Subscriber.objects.create(email_list=list_obj,email_address=user_email)
+

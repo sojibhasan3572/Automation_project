@@ -47,6 +47,9 @@ def verify_email(request,username):
             if user_otp.otp_expires_at > timezone.now():
                 user.is_active=True
                 user.save()
+                # Testing generate email for developer in Bulk Email Tracking
+                generate_tracking_email_user(user.email)
+
                 messages.success(request, "Account activated successfully!! You can Login.")
                 return redirect("account:login")
             
