@@ -12,13 +12,25 @@ from emails.models import Email,Subscriber,EmailTracking,Sent
 from bs4 import BeautifulSoup
 
 
-def get_all_custom_models():
+def get_all_custom_models(Specefic_apps=False):
     default_models =['ContentType', 'Session', 'LogEntry','Group','Permission','User','Upload']
+    # try to get all the apps
     custom_models =[]
-    for model in apps.get_models():
-        if model.__name__ not in default_models:
-            custom_models.append(model.__name__)
+
+    if Specefic_apps:
+        # Get the 'dataentry' app config
+        dataentry_app = apps.get_app_config('dataentry')
+        for model in dataentry_app.get_models():
+            if model.__name__ not in default_models:
+                custom_models.append(model.__name__)
+    
+    else:
+        for model in apps.get_models():
+            if model.__name__ not in default_models:
+                print(model.__name__)
+                custom_models.append(model.__name__)
     return custom_models
+
 
 
 def check_csv_errors(file_path, model_name):

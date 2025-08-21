@@ -38,7 +38,7 @@ def import_data(request):
         
 
     else:
-        custom_models = get_all_custom_models()
+        custom_models = get_all_custom_models(True)
         context={
             'custom_models':custom_models
         }
@@ -57,7 +57,7 @@ def export_data(request):
         messages.success(request, 'Your data is being exported, you will be notified once it is done.')
         return redirect('export_data')
     else:
-        custom_models = get_all_custom_models()
+        custom_models = get_all_custom_models(True)
         context = {
             'custom_models': custom_models,
         }
