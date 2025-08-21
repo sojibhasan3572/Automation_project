@@ -3,5 +3,5 @@ from . import views
 
 
 urlpatterns = [
-   
+   path('compress/', views.compress, name='compress'),
 ]
