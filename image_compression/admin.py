@@ -23,4 +23,4 @@ class CompressImageAdmin(admin.ModelAdmin):
     list_display = ('user', 'thumbnail', 'org_img_size', 'comp_img_size', 'compressed_at')
     
 
-admin.site.register(CompressImage)
+admin.site.register(CompressImage,CompressImageAdmin)
