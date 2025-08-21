@@ -4,8 +4,6 @@ from .utlis import send_email_notification,generate_csv_file
 
 import time
 
-
-
 @app.task
 def import_data_task(file_path, model_name,user_email):
     try:
@@ -17,7 +15,6 @@ def import_data_task(file_path, model_name,user_email):
     # message = 'Your data import has been successful'
     # to_email = user_email
     # send_email_notification(mail_subject, message, [to_email])
-    
     return 'Data imported successfully.'
 
 

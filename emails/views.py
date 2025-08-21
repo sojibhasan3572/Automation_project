@@ -39,7 +39,7 @@ def send_email(request):
             # Handover email sending task to celery
             print("hand over taskcall")
             send_email_task.delay(mail_subject, message, to_email, attachment, email_id)
-
+            # send_email_notification(mail_subject, message, to_email, attachment, email_id)
             # Display a success message
             messages.success(request, 'Email sent successfully!')
             return redirect('send_email')
