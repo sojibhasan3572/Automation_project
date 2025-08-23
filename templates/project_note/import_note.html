@@ -1,0 +1,57 @@
+<div id="hr-note" class="mt-4 p-3 bg-light border rounded position-relative" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <!-- Attractive Cross Icon -->
+    <span onclick="closeHRNote()" 
+          style="
+              position:absolute; 
+              top:10px; 
+              right:15px; 
+              cursor:pointer; 
+              font-weight:bold; 
+              font-size:22px; 
+              color:#dc3545; 
+              background: #fff; 
+              border-radius:50%; 
+              width:30px; 
+              height:30px; 
+              display:flex; 
+              align-items:center; 
+              justify-content:center; 
+              box-shadow: 0 2px 6px rgba(0,0,0,0.2); 
+              transition: all 0.2s ease-in-out;
+          "
+          onmouseover="this.style.transform='scale(1.2)'; this.style.background='#dc3545'; this.style.color='#fff';"
+          onmouseout="this.style.transform='scale(1)'; this.style.background='#fff'; this.style.color='#dc3545';"
+    >&times;</span>
+    {% load static %}
+    <h5 class="text-success">Project Note:</h5>
+    <ul style="line-height: 1.6;">
+        <li>Efficient CSV import for very large datasets (1M+ records) without freezing the browser, powered by <strong>Celery</strong> & <strong>Redis</strong>.</li>
+      <li>HR can test instantly with demo CSV files:</li>
+<ul style="list-style:none; padding-left:0;">
+    <li>
+        <a href="{% static 'demo/customer_demo_records.csv' %}" download style="text-decoration:none;">
+            &#128229; Customer Master Records
+        </a>
+    </li>
+    <li>
+        <a href="{% static 'demo/employee_1M.csv' %}" download style="text-decoration:none;">
+            &#128229; Employee Dataset 1M+
+        </a>
+    </li>
+    <li>
+        <a href="{% static 'demo/student_data.csv' %}" download style="text-decoration:none;">
+            &#128229; Student Academic Data
+        </a>
+    </li>
+</ul>
+    </ul>
+</div>
+
+<script>
+function closeHRNote() {
+    const note = document.getElementById('hr-note');
+    note.style.transition = 'opacity 0.3s';
+    note.style.opacity = 0;
+    setTimeout(() => note.style.display = 'none', 300);
+}
+</script>

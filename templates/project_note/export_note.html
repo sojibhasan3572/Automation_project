@@ -1,0 +1,45 @@
+<div id="hr-note" class="mt-4 p-3 bg-light border rounded position-relative" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <!-- Attractive Cross Icon -->
+    <span onclick="closeHRNote()" 
+          style="
+              position:absolute; 
+              top:10px; 
+              right:15px; 
+              cursor:pointer; 
+              font-weight:bold; 
+              font-size:22px; 
+              color:#dc3545; 
+              background: #fff; 
+              border-radius:50%; 
+              width:30px; 
+              height:30px; 
+              display:flex; 
+              align-items:center; 
+              justify-content:center; 
+              box-shadow: 0 2px 6px rgba(0,0,0,0.2); 
+              transition: all 0.2s ease-in-out;
+          "
+          onmouseover="this.style.transform='scale(1.2)'; this.style.background='#dc3545'; this.style.color='#fff';"
+          onmouseout="this.style.transform='scale(1)'; this.style.background='#fff'; this.style.color='#dc3545';"
+    >&times;</span>
+
+        <h5 class="text-success">Project Note:</h5>
+        <ul style="line-height: 1.6;">
+             <li>Fast CSV export tool for <strong>1M+ records</strong> using <strong>Celery & Redis</strong> to avoid browser freezes.</li>
+        <li>Ideal for HR/data teams to generate reports, update datasets, and improve operational efficiency.</li>
+        </ul>
+
+
+</div>
+
+<script>
+    function closeHRNote() {
+    const note = document.getElementById('hr-note');
+    note.style.transition = 'opacity 0.3s';
+    note.style.opacity = 0;
+    setTimeout(() => note.style.display = 'none', 300);
+}
+</script>
+
+
+
