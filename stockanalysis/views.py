@@ -61,6 +61,10 @@ class StockAutocomplete(autocomplete.Select2QuerySetView):
         return qs
     
 def stock_detail(request, pk):
-    pass
+    stock_data = get_object_or_404(StockData, pk=pk)
+    context = {
+        'stock_data': stock_data,
+    }
+    return render(request, 'stockanalysis/stock-detail.html', context)
 
     
