@@ -1,0 +1,54 @@
+
+
+
+<div id="hr-note" class="mt-4 p-3 bg-light border rounded position-relative" style="box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <!-- Attractive Cross Icon -->
+    <span onclick="closeHRNote()" 
+          style="
+              position:absolute; 
+              top:10px; 
+              right:15px; 
+              cursor:pointer; 
+              font-weight:bold; 
+              font-size:22px; 
+              color:#dc3545; 
+              background: #fff; 
+              border-radius:50%; 
+              width:30px; 
+              height:30px; 
+              display:flex; 
+              align-items:center; 
+              justify-content:center; 
+              box-shadow: 0 2px 6px rgba(0,0,0,0.2); 
+              transition: all 0.2s ease-in-out;
+          "
+          onmouseover="this.style.transform='scale(1.2)'; this.style.background='#dc3545'; this.style.color='#fff';"
+          onmouseout="this.style.transform='scale(1)'; this.style.background='#fff'; this.style.color='#dc3545';"
+    >&times;</span>
+
+
+<div class="mb-1 p-3 shadow-sm rounded" style="background-color:#e9f7ef;">
+    <h5 class="text-success">Project Note:</h5>
+      <p> Web app scrapes and analyzes live stock data from NASDAQ, NSE, etc., showing it in a simple interface.</p>
+    <ul class="mb-0">
+        <li>Real-time insights for global stock markets.</li>
+        <li>Helps investors make fast, data-driven decisions.</li>
+        <li>Showcases skills in web scraping, data processing & UI design.</li>
+    </ul>
+</div>
+</div>
+
+<script>
+function closeHRNote() {
+    const note = document.getElementById('hr-note');
+    note.style.transition = 'opacity 0.3s';
+    note.style.opacity = 0;
+    setTimeout(() => note.style.display = 'none', 300);
+}
+</script>
+
+
+
+
+
+
