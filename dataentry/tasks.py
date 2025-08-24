@@ -19,17 +19,16 @@ def import_data_task(file_path, model_name,user_email):
 
 
 @app.task
-def export_data_task(model_name):
+def export_data_task(model_name,user_email):
     try:
         call_command('exportdata', model_name)
     except Exception as e:
         raise e
     
     file_path = generate_csv_file(model_name)
-    
     # Send email with the attachment
     mail_subject = 'Export Data Successful'
     message = 'Export data successful. Please find the attachment'
-    to_email = "sojibhasan5800@gmail.com" # !!!!!!! Reques User Mail Send
+    to_email = user_email
     send_email_notification(mail_subject, message, [to_email], attachment=file_path)
     return 'Export Data task executed successfully.'

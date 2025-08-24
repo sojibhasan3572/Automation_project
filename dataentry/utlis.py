@@ -10,6 +10,8 @@ from django.apps import apps
 from django.core.management.base import CommandError
 import csv
 from django.db import DataError
+from django.http import FileResponse, Http404
+import os
 
 
 
@@ -70,7 +72,7 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
         from_email = settings.DEFAULT_FROM_EMAIL
         for recipient_email in to_email:
             # Create EmailTracking record
-            new_message = "wigeng"
+            new_message = message
             if email_id:
                 email = Email.objects.get(pk=email_id)
                 subscriber = Subscriber.objects.get(email_list=email.email_list, email_address=recipient_email)
@@ -91,7 +93,7 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
                 # Search for the links in the email body
                 soup = BeautifulSoup(message, 'html.parser')
                 urls = [a['href'] for a in soup.find_all('a', href=True)]
-                print('urls=>', urls)
+                # print('urls=>', urls)
 
                 # If there are links or urls in the email body, inject our click tracking url to that original link
                 if urls:
@@ -100,12 +102,13 @@ def send_email_notification(mail_subject, message, to_email, attachment=None, em
                         tracking_url = f"{click_tracking_url}?url={url}"
                         new_message = new_message.replace(f"{url}", f"{tracking_url}")
                 else:
-                    print('No URLs found in the email content')
+                    # print('No URLs found in the email content')
+                    pass
                 
                 # Create the email content with tracking pixel image
                 open_tracking_img = f"<img src='{open_tracking_url}' width='1' height='1'>"
                 new_message += open_tracking_img
-                print(new_message)
+                # print(new_message)
 
             mail = EmailMessage(mail_subject, new_message, from_email, to=[recipient_email])
             if attachment is not None:
@@ -133,6 +136,8 @@ def generate_csv_file(model_name):
     file_name = f'exported_{model_name}_data_{timestamp}.csv'
     file_path = os.path.join(settings.MEDIA_ROOT, export_dir, file_name)
     return file_path
+
+
 
 def generate_tracking_email_user(user_email):
     all_list = List.objects.all()

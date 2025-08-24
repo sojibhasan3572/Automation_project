@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand,CommandError
 from django.apps import apps
+from django.http import HttpResponse
 from dataentry.utlis import generate_csv_file
 import csv
 import datetime
@@ -33,8 +34,6 @@ class Command(BaseCommand):
 
         # generate csv file path
         file_path = generate_csv_file(model_name)
-
-        
         
         with open(file_path , 'w', newline='') as file:
             writer = csv.writer(file)
@@ -45,4 +44,5 @@ class Command(BaseCommand):
             for record in data:
                 writer.writerow([ getattr(record, field.name) for field in model._meta.fields])
         self.stdout.write(self.style.SUCCESS('Data Exported from CSV successfully!'))
+
 

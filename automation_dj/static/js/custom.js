@@ -1,6 +1,6 @@
 setTimeout(function(){
     $('#messages').fadeOut('slow')
-}, 6000)
+}, 8000)
 
  const closeButtons = document.querySelectorAll('.close');
   closeButtons.forEach(btn => {

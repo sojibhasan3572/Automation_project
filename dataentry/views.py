@@ -1,5 +1,7 @@
+import os
+from django.http import FileResponse, Http404
 from django.shortcuts import render,redirect
-from .utlis import get_all_custom_models,check_csv_errors
+from .utlis import generate_csv_file, get_all_custom_models,check_csv_errors
 from uploads.models import Upload
 from django.conf import settings
 from django.contrib import messages
@@ -44,6 +46,20 @@ def import_data(request):
         }
         return render(request,'dataentry/importdata.html',context)
 
+# def download_csv(request, model_name):
+#     print(100)
+#     model_name = model_name.capitalize()
+    
+#     # Generate CSV file path
+#     file_path = generate_csv_file(model_name)  
+#     if not os.path.exists(file_path):
+#         raise Http404("File not found")
+
+#     # FileResponse with downloaded
+#     response = FileResponse(open(file_path, 'rb'))
+#     response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
+#     return response
+
 
 def export_data(request):
     if request.method == 'POST':
@@ -51,10 +67,10 @@ def export_data(request):
         user_email = request.user.email
 
         # call the export data task
-        export_data_task.delay(model_name)
+        export_data_task.delay(model_name,user_email)
 
         # show the message to the user
-        messages.success(request, 'Your data is being exported, you will be notified once it is done.')
+        messages.success(request, "Please check your email — the exported data file has been sent to you.")
         return redirect('export_data')
     else:
         custom_models = get_all_custom_models(True)
