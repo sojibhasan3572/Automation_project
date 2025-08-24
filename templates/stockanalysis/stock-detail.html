@@ -1,47 +1,45 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
-<div class="container mt-5 p-3 shadow rounded" style="max-width: 800px;">
-    <h2>{{ stock_data.stock }} ({{stock_data.stock.symbol}})</h2>
-    <h3 style="font-weight: 900;">{{ stock_data.current_price }}
-        <span class="{% if '-' in stock_data.price_changed %}text-danger{% elif '+' in stock_data.price_changed %}text-success{% endif %}" style="font-size: 20px;">{{ stock_data.price_changed }}</span>
-        <span class="{% if '-' in stock_data.percentage_changed %}text-danger{% elif '+' in stock_data.percentage_changed %}text-success{% endif %}" style="font-size: 20px;">{{ stock_data.percentage_changed }}</span>
-        <span style="font-size: 16px; text-transform: uppercase;">{{ stock_data.stock.sector }}</span>
+<div class="container mt-5 p-4 shadow-lg rounded bg-light" style="max-width: 850px;">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="fw-bold">{{ stock_data.stock }} <small>({{ stock_data.stock.symbol }})</small></h2>
+        <span class="badge bg-primary" style="font-size: 14px;">{{ stock_data.stock.sector|default:"N/A" }}</span>
+    </div>
+
+    <h3 class="fw-bold mt-3">
+        {{ stock_data.current_price }}
+        <span class="{% if '-' in stock_data.price_changed %}text-danger{% elif '+' in stock_data.price_changed %}text-success{% endif %}" style="font-size: 20px;">
+            {{ stock_data.price_changed }}
+        </span>
+        <span class="{% if '-' in stock_data.percentage_changed %}text-danger{% elif '+' in stock_data.percentage_changed %}text-success{% endif %}" style="font-size: 20px;">
+            {{ stock_data.percentage_changed }}
+        </span>
     </h3>
-    <small>{{ stock_data.stock.exchange }} Listed - {{ stock_data.stock.country }}</small>
+    <small class="text-muted">{{ stock_data.stock.exchange }} Listed - {{ stock_data.stock.country }}</small>
     <hr>
-    <table class="table table-hover" style="margin: auto; max-width: 600px;">
+
+    <table class="table table-bordered table-hover text-center shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+        </thead>
         <tbody>
-            <tr>
-                <td>Previous Close:</td>
-                <td>{{ stock_data.previous_close }}</td>
-            </tr>
-            <tr>
-                <td>52 Week High:</td>
-                <td>{{ stock_data.week_52_high }}</td>
-            </tr>
-            <tr>
-                <td>52 Week Low:</td>
-                <td>{{ stock_data.week_52_low }}</td>
-            </tr>
-            <tr>
-                <td>Market Cap:</td>
-                <td>{{ stock_data.market_cap }}</td>
-            </tr>
-            <tr>
-                <td>P/E Ratio:</td>
-                <td>{{ stock_data.pe_ratio }}</td>
-            </tr>
-            <tr>
-                <td>Dividend Yield:</td>
-                <td>{{ stock_data.dividend_yield }}</td>
-            </tr>
+            <tr><td>Previous Close</td><td>{{ stock_data.previous_close }}</td></tr>
+            <tr><td>52 Week High</td><td>{{ stock_data.week_52_high }}</td></tr>
+            <tr><td>52 Week Low</td><td>{{ stock_data.week_52_low }}</td></tr>
+            <tr><td>Market Cap</td><td>{{ stock_data.market_cap }}</td></tr>
+            <tr><td>P/E Ratio</td><td>{{ stock_data.pe_ratio }}</td></tr>
+            <tr><td>Dividend Yield</td><td>{{ stock_data.dividend_yield }}</td></tr>
         </tbody>
     </table>
-    <br>
-    <a href="{% url 'stocks' %}" class="btn btn-info">Check Another Stock</a>
 
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'stocks' %}" class="btn btn-info shadow">Check Another Stock</a>
+    </div>
 </div>
-{% endblock %}
+
+
+{% endblock %}  
