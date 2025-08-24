@@ -70,6 +70,7 @@ def check_csv_errors(file_path, model_name):
 def send_email_notification(mail_subject, message, to_email, attachment=None, email_id=None):
     try:
         from_email = settings.DEFAULT_FROM_EMAIL
+        # print(from_email)
         for recipient_email in to_email:
             # Create EmailTracking record
             new_message = message

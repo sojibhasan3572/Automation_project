@@ -3,6 +3,7 @@ from .forms import CompressImageForm
 from PIL import Image
 import io
 from django.http import HttpResponse
+from django.contrib import messages
 
 # Create your views here.
 def compress(request):
@@ -30,6 +31,8 @@ def compress(request):
             )
 
             # Automatically download the compressed file
+            # messages.success(request, f"Image compressed successfully!")
+            # print(messages)
             response = HttpResponse(buffer.getvalue(), content_type=f'image/{output_format.lower()}')
             response['Content-Disposition'] = f'attachment; filename=compressed_{original_img}'
             return response

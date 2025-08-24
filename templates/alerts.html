@@ -1,9 +1,30 @@
+<style>
+/* Custom close button inside alert */
+.custom-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;           /* subtle gray color */
+    cursor: pointer;
+    transition: color 0.3s ease;
+    margin-left: 10px;
+}
+
+.custom-close-btn:hover {
+    color: #d33;           /* red on hover */
+}
+</style>
+
+
 {% if messages %}
 <div class="messages" id="messages">
     {% for message in messages %}
-    <div class="alert alert-{{ message.tags }} alert-dismissible">
-        {{ message }}
-        <button type="button" class="close" onclick="this.parentElement.style.display='none';">&times;</button>
+    <div class="alert alert-{{ message.tags }} alert-dismissible d-flex justify-content-between align-items-center">
+        <span>{{ message }}</span>
+        <!-- Cross button -->
+        <button type="button" class="custom-close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+        {% comment %} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> {% endcomment %}
     </div>
     {% endfor %}
 </div>

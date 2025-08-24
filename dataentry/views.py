@@ -35,7 +35,7 @@ def import_data(request):
         import_data_task.delay(file_path, model_name,user_email)
 
         # show the message to the user
-        messages.success(request, 'Your data is being imported, you will be notified once it is done.')
+        messages.success(request, 'Your data is being imported, you will be notified Email when once it is done.')
         return redirect('import_data')
         
 
@@ -46,19 +46,6 @@ def import_data(request):
         }
         return render(request,'dataentry/importdata.html',context)
 
-# def download_csv(request, model_name):
-#     print(100)
-#     model_name = model_name.capitalize()
-    
-#     # Generate CSV file path
-#     file_path = generate_csv_file(model_name)  
-#     if not os.path.exists(file_path):
-#         raise Http404("File not found")
-
-#     # FileResponse with downloaded
-#     response = FileResponse(open(file_path, 'rb'))
-#     response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
-#     return response
 
 
 def export_data(request):
