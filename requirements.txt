@@ -11,6 +11,7 @@ click-plugins==1.1.1.2
 click-repl==0.3.0
 colorama==0.4.6
 crispy-bootstrap5==2025.6
+dj-database-url==3.0.1
 Django==5.2.5
 django-anymail==13.0.1
 django-autocomplete-light==3.12.1
@@ -18,11 +19,13 @@ django-ckeditor==6.7.3
 django-crispy-forms==2.4
 django-js-asset==3.1.2
 git-filter-repo==2.47.0
+gunicorn==23.0.0
 idna==3.10
 kombu==5.5.4
 packaging==25.0
 pillow==11.3.0
 prompt_toolkit==3.0.51
+psycopg2==2.9.10
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 redis==6.4.0

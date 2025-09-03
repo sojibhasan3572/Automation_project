@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
-
+import dj_database_url
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,6 +28,7 @@ SECRET_KEY = 'django-insecure--gfhi%t8p&0y_zehi_ig6py9%6jk81$gz76z+14%y4ogxt(2xb
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://flip-cart-project-1.onrender.com']
 
 
 # Application definition
@@ -87,13 +89,18 @@ WSGI_APPLICATION = 'automation_dj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default= 'postgresql://auto_db_n7ad_user:aG1OrJ0j31iJQndoJF4k2yNnGlMZs3rd@dpg-d2rug23e5dus73cisa50-a.oregon-postgres.render.com/auto_db_n7ad'
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -142,7 +149,18 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
     50: "critical",
 }
-CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+
+
+# Celery
+CELERY_BROKER_URL = os.getenv("REDIS_URL")  # Redis broker
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")  # Task result save 
+
+CELERY_TIMEZONE = 'Asia/Dhaka'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
 
 CKEDITOR_CONFIGS = {
     'default': {
