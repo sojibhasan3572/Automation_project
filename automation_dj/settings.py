@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure--gfhi%t8p&0y_zehi_ig6py9%6jk81$gz76z+14%y4ogxt(2xb
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://flip-cart-project-1.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://automation-project-chst.onrender.com']
 
 
 # Application definition
@@ -192,4 +192,4 @@ AUTH_USER_MODEL = 'account.CustomUser'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CSRF_TRUSTED_ORIGINS = ['https://faff-114-79-178-247.ngrok-free.app']
-BASE_URL = 'http://127.0.0.1:8000/'  # deploy server change this url
+BASE_URL = 'https://automation-project-chst.onrender.com'  # deploy server change this url
