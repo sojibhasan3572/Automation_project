@@ -153,8 +153,8 @@ MESSAGE_TAGS = {
 
 
 # Celery
-CELERY_BROKER_URL = 'redis-cli -u redis://default:iefdT3irl2OXIK65euaHlK9KoKLZFnZF@redis-17257.c44.us-east-1-2.ec2.redns.redis-cloud.com:17257'
-CELERY_RESULT_BACKEND = 'redis-cli -u redis://default:iefdT3irl2OXIK65euaHlK9KoKLZFnZF@redis-17257.c44.us-east-1-2.ec2.redns.redis-cloud.com:17257'
+CELERY_BROKER_URL = 'redis://default:iefdT3irl2OXIK65euaHlK9KoKLZFnZF@redis-17257.c44.us-east-1-2.ec2.redns.redis-cloud.com:17257/0'
+CELERY_RESULT_BACKEND = 'redis://default:iefdT3irl2OXIK65euaHlK9KoKLZFnZF@redis-17257.c44.us-east-1-2.ec2.redns.redis-cloud.com:17257/0'
 
 CELERY_TIMEZONE = 'Asia/Dhaka'
 CELERY_ACCEPT_CONTENT = ['json']
