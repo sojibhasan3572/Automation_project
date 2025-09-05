@@ -112,7 +112,7 @@ def resend_otp(request):
             context = {
                 "username": user.username,
                 "otp": otp_codes,
-                "verify_url": f"http://127.0.0.1:8000/account/verify-email/{user.username}/{uidb64}",
+                "verify_url": f"https://automation-project-chst.onrender.com/account/verify-email/{user.username}/{uidb64}",
             }
             
             
